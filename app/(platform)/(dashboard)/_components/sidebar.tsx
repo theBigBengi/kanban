@@ -49,7 +49,19 @@ export default function Sidebar({
   };
 
   if (!isLoadedOrgList || !isLoadedOrganization || userMemberships.isLoading) {
-    return <Skeleton />;
+    return (
+      <>
+        <div className='flex items-center justify-between mb-2'>
+          <Skeleton className='h-10 w-[50%]' />
+          <Skeleton className='h-10 w-10' />
+          <div className='space-y-2'>
+            <NavItem.Skeleton />
+            <NavItem.Skeleton />
+            <NavItem.Skeleton />
+          </div>
+        </div>
+      </>
+    );
   }
 
   return (
