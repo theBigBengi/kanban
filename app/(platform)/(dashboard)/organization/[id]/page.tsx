@@ -5,7 +5,7 @@ export default function Page() {
 
   return (
     <div>
-      <OrganizationSwitcher hidePersonal />
+      Organization : {orgId}, user : {userId},
     </div>
   );
 }
