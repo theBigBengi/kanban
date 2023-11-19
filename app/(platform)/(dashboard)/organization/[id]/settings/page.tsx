@@ -1,4 +1,5 @@
 import { OrganizationProfile } from "@clerk/nextjs";
+// prisma
 // pscale_pw_jlcDStnZVFyZOHGhublO2h5wKghgocTISPPuM2n6DN8
 export default function Page() {
   return (
