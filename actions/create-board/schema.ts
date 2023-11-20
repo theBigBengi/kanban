@@ -7,4 +7,8 @@ export const CreateBoard = z.object({
       invalid_type_error: "Name must be a string",
     })
     .min(3, { message: "Must be 3 or more characters long" }),
+  image: z.string({
+    required_error: "Image is required",
+    invalid_type_error: "Image must be a string",
+  }),
 });

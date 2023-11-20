@@ -16,7 +16,7 @@ interface FormSubmitProps {
     | "primary";
 }
 
-export default function FormSubmit({
+export function FormSubmit({
   children,
   disabled,
   variant,

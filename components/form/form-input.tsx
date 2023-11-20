@@ -6,7 +6,7 @@ import { useFormStatus } from "react-dom";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
-import FormErros from "./form-errors";
+import { FormErrors } from "./form-errors";
 
 interface FormInputProps {
   id: string;
@@ -63,7 +63,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             id={id}
           />
         </div>
-        <FormErros errors={errors} id={id} />
+        <FormErrors errors={errors} id={id} />
       </div>
     );
   }
