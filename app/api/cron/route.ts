@@ -1,3 +1,6 @@
-export default function handler(req: any, res: any) {
-  res.status(200).end("Hello Cron!");
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  console.log("first");
+  return NextResponse.json({ ok: true });
 }
