@@ -1,5 +1,3 @@
-export async function GET() {
-  console.log("cron test");
-
-  return Response.json({ data: "" });
+export default function handler(req: any, res: any) {
+  res.status(200).end("Hello Cron!");
 }
