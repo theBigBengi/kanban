@@ -59,6 +59,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             required={required}
             onBlur={onBlur}
             type={type}
+            ref={ref}
             name={id}
             id={id}
           />
