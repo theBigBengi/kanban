@@ -27,7 +27,7 @@ export function FormSubmit({
   return (
     <Button
       disabled={pending || disabled}
-      className={cn("", className)}
+      className={cn(className)}
       variant={variant}
       type='submit'
       size='sm'

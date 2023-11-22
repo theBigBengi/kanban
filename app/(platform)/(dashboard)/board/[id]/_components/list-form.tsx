@@ -68,9 +68,9 @@ export const ListForm = () => {
     return (
       <ListWrapper>
         <form
+          className='w-full p-3 rounded-md bg-white space-y-4 shadow-md'
           action={onSubmit}
           ref={formRef}
-          className='w-full p-3 rounded-md bg-white space-y-4 shadow-md'
         >
           <FormInput
             ref={inputRef}
@@ -79,7 +79,7 @@ export const ListForm = () => {
             className='text-sm px-2 py-1 h-7 font-medium border-transparent hover:border-input focus:border-input transition'
             placeholder='Enter list title...'
           />
-          <input hidden value={params.boardId} name='boardId' />
+          <input hidden value={params.id} name='boardId' />
           <div className='flex items-center gap-x-1'>
             <FormSubmit>Add list</FormSubmit>
             <Button onClick={disableEditing} size='sm' variant='ghost'>
