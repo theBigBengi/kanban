@@ -29,13 +29,12 @@ const CreateListSchema = z.object({
   boardId: z.string(),
 });
 
-export async function createList(prevState: any, formData: FormData) {
+export async function createList(formData: FormData) {
   const { orgId, userId } = auth();
 
   if (!userId || !orgId) {
     return {
       message: "Unauthorized",
-      success: false,
     };
   }
 
@@ -48,11 +47,8 @@ export async function createList(prevState: any, formData: FormData) {
     return {
       errors: validationResult.error.flatten().fieldErrors,
       message: "Missing Fields. Failed to Create Invoice.",
-      success: false,
     };
   }
-  //dsfsdfsd
-  // ds/ds/f
 
   const { title, boardId } = validationResult.data;
 
@@ -67,7 +63,6 @@ export async function createList(prevState: any, formData: FormData) {
     if (!board) {
       return {
         message: "Board not found",
-        success: false,
       };
     }
 
@@ -79,23 +74,22 @@ export async function createList(prevState: any, formData: FormData) {
 
     const order = lastList?.order ?? 1;
 
-    await db.list.create({
+    const newList = await db.list.create({
       data: {
         title,
         boardId,
         order,
       },
     });
+
+    revalidatePath(`/board/${boardId}`);
+
+    return { data: { list: newList } };
   } catch (error) {
     return {
       message: "Faild to create List",
-      success: false,
     };
   }
-
-  return { success: true };
-
-  //   revalidatePath(`/board/${boardId}`);
 }
 
 const UpdateListSchema = z.object({
@@ -160,4 +154,104 @@ export async function updateList(formData: FormData) {
   revalidatePath(`/board/${boardId}`);
 
   return { data: { list } };
+}
+
+const DeleteListSchema = z.object({
+  boardId: z.string(),
+  id: z.string(),
+});
+
+export async function deleteList(formData: FormData) {
+  const { orgId, userId } = auth();
+
+  if (!userId || !orgId) {
+    return {
+      message: "Unauthorized",
+    };
+  }
+
+  // Validate user input
+  const validationResult = DeleteListSchema.safeParse({
+    boardId: formData.get("boardId"),
+    id: formData.get("id"),
+  });
+
+  if (!validationResult.success) {
+    return {
+      errors: validationResult.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Update List Title.",
+    };
+  }
+
+  const { boardId, id } = validationResult.data;
+
+  try {
+    await db.list.delete({
+      where: {
+        id,
+        boardId,
+        board: {
+          orgId,
+        },
+      },
+    });
+  } catch (error) {
+    return {
+      message: "Faild to update List's title. Try again later.",
+    };
+  }
+
+  // refersh
+  revalidatePath(`/board/${boardId}`);
+  return {};
+}
+
+const CopyListSchema = z.object({
+  boardId: z.string(),
+  id: z.string(),
+});
+
+export async function copyList(formData: FormData) {
+  const { orgId, userId } = auth();
+
+  if (!userId || !orgId) {
+    return {
+      message: "Unauthorized",
+    };
+  }
+
+  // Validate user input
+  const validationResult = DeleteListSchema.safeParse({
+    boardId: formData.get("boardId"),
+    id: formData.get("id"),
+  });
+
+  if (!validationResult.success) {
+    return {
+      errors: validationResult.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Update List Title.",
+    };
+  }
+
+  const { boardId, id } = validationResult.data;
+
+  try {
+    await db.list.delete({
+      where: {
+        id,
+        boardId,
+        board: {
+          orgId,
+        },
+      },
+    });
+  } catch (error) {
+    return {
+      message: "Faild to update List's title. Try again later.",
+    };
+  }
+
+  // refersh
+  revalidatePath(`/board/${boardId}`);
+  return {};
 }

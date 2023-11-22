@@ -1,5 +1,10 @@
 "use client";
 
+import { toast } from "sonner";
+import { MoreHorizontal, X } from "lucide-react";
+
+import { deleteBoard } from "@/actions/delete-board";
+import { useAction } from "@/hooks/use-action";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -7,34 +12,32 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { deleteBoard } from "@/lib/action";
-import { MoreHorizontal, X } from "lucide-react";
-import { toast } from "sonner";
 
 interface BoardOptionsProps {
   id: string;
 }
 
-export function BoardOptions({ id }: BoardOptionsProps) {
-  async function handleDelete() {
-    const result = await deleteBoard(id);
+export const BoardOptions = ({ id }: BoardOptionsProps) => {
+  const { execute, isLoading } = useAction(deleteBoard, {
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
 
-    if (result?.message) {
-      toast.error(result.message);
-    }
-  }
+  const onDelete = () => {
+    execute({ id });
+  };
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button className='h-auto w-auto p-2' variant='transparent'>
-          <MoreHorizontal />
+          <MoreHorizontal className='h-4 w-4' />
         </Button>
       </PopoverTrigger>
-
       <PopoverContent className='px-0 pt-3 pb-3' side='bottom' align='start'>
         <div className='text-sm font-medium text-center text-neutral-600 pb-4'>
-          Board Options
+          Board actions
         </div>
         <PopoverClose asChild>
           <Button
@@ -46,13 +49,13 @@ export function BoardOptions({ id }: BoardOptionsProps) {
         </PopoverClose>
         <Button
           variant='ghost'
-          onClick={handleDelete}
-          //   disabled={isLoading}
+          onClick={onDelete}
+          disabled={isLoading}
           className='rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm'
         >
-          Delete Boaard
+          Delete this board
         </Button>
       </PopoverContent>
     </Popover>
   );
-}
+};
