@@ -14,8 +14,10 @@ export interface FormTextareaProps {
   className?: string;
   errors?: Record<string, string[] | undefined>;
   defaultValue?: string;
+  value?: string;
   onBlur?: () => void;
   onClick?: () => void;
+  onChange?: () => void;
   onKeyDown?: KeyboardEventHandler<HTMLTextAreaElement> | undefined;
 }
 
@@ -33,6 +35,8 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
       onBlur,
       onClick,
       onKeyDown,
+      value,
+      onChange,
     },
     ref
   ) => {
